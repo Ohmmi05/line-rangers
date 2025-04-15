@@ -22,7 +22,7 @@ Lang = LangChoice == 1 and {
         "😎 สคริปต์เทพไว้ใจได้ by Ohmmi!", "🚀 ออกแล้ว บินได้!"
     }
 } or {
-    POWER = "Power Up", SPEED = "Attack Speed", SPAWN = "Reduce Ranger Spawns ", INSTANT_KILL = "Instant Kill",
+    POWER = "Power Up", SPEED = "Attack Speed", SPAWN = "Reduce Ranger CD Time ", INSTANT_KILL = "Instant Kill",
     BLOCK_ENEMY = "Enemy Doesn't Appear", FREEZE_BOSS = "Freeze Guild Boss", ANTI_REPORT = "Anti-Report (PVP)",
     GAME_SPEED = "Game Speed", RESET_ALL = "🔄 Reset All Functions", CLOSE_GAME = "🚫 Close Game",
     EXIT_SCRIPT = "🚫 Exit Script", SCRIPT_BY = "👑 Developer: Ohmmi",
