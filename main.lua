@@ -7,12 +7,9 @@ local toast, alert, prompt = gg.toast, gg.alert, gg.prompt
 -- 🔧 Hack Definitions
 local function addr(offset) return BaseAddress + offset end
 local Hack = {
-    -- ปรับค่าเอง
     [1] = { name = "ตีแรง",       offset = 0x82cbac,   type = gg.TYPE_FLOAT },
     [2] = { name = "ตีไว",       offset = 0x4eaa20,   type = gg.TYPE_FLOAT },
     [3] = { name = "ปล่อยตัวไว", offset = 0x4e5ffc,   type = gg.TYPE_FLOAT },
-
-    -- ปรับออโต้
     [4] = { name = "ฆ่าศัตรู",   offset = 0x5b0fd0,   value = 10000, switch = false, type = gg.TYPE_FLOAT },
     [5] = { name = "ศัตรูไม่ออก", offset = {0x551614, 0x5524b0, 0x557924}, value = 0, switch = false, type = gg.TYPE_FLOAT },
     [6] = { name = "บอสกิลด์ยืนนิ่ง", offset = 0x587240,   value = -100, switch = false, type = gg.TYPE_FLOAT },
@@ -46,7 +43,7 @@ local function ApplyHack(h, promptMode)
 
     if promptMode then
         local cur = read(h.base[1], h.type)
-        local input = prompt({"🔧 "..h.name}, {tostring(cur)}, {"number"})
+        local input = prompt({"⚙️ "..h.name}, {tostring(cur)}, {"number"})
         if input and tonumber(input[1]) then
             for _, a in ipairs(h.base) do write(a, h.type, tonumber(input[1])) end
             toast("✅ เปิดใช้งาน "..h.name)
@@ -60,41 +57,38 @@ local function ApplyHack(h, promptMode)
     end
 end
 
--- 📋 Menu
+-- 📋 Menu with Modern UI
 local function ShowMenu()
-    local m = gg.multiChoice({
-        -- เมนู "ปรับค่าเอง"
-        "ปรับค่าเอง",
-        string.format("[⚙️] %s", Hack[1].name),
-        string.format("[⚙️] %s", Hack[2].name),
-        string.format("[⚙️] %s", Hack[3].name),
+    local menuOptions = {
+        {name = Hack[1].name, icon = "⚙️", action = 1},
+        {name = Hack[2].name, icon = "⚙️", action = 2},
+        {name = Hack[3].name, icon = "⚙️", action = 3},
+        {name = Hack[4].switch and "🟢 "..Hack[4].name or "🔴 "..Hack[4].name, icon = "", action = 4},
+        {name = Hack[5].switch and "🟢 "..Hack[5].name or "🔴 "..Hack[5].name, icon = "", action = 5},
+        {name = Hack[6].switch and "🟢 "..Hack[6].name or "🔴 "..Hack[6].name, icon = "", action = 6},
+        {name = Hack[7].switch and "🟢 "..Hack[7].name or "🔴 "..Hack[7].name, icon = "", action = 7},
+        {name = Hack[8].name, icon = "⚙️", action = 8},
+        {name = "🚫 ออกจากสคริปต์", icon = "", action = 9}
+    }
 
-        -- เมนู "ปรับออโต้"
-        "ปรับออโต้",
-        string.format("[%s] %s", Hack[4].switch and "🟢" or "🔴", Hack[4].name),
-        string.format("[%s] %s", Hack[5].switch and "🟢" or "🔴", Hack[5].name),
-        string.format("[%s] %s", Hack[6].switch and "🟢" or "🔴", Hack[6].name),
-        string.format("[%s] %s", Hack[7].switch and "🟢" or "🔴", Hack[7].name),
-        string.format("[⚙️] %s", Hack[8].name),
-        
-        "🚫 ออกจากสคริปต์"
-    }, nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script")
+    local choice = gg.choice(
+        -- Create a table of formatted choices with icons
+        map(menuOptions, function(option)
+            return option.icon .. " " .. option.name
+        end),
+        nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script"
+    )
 
-    if not m then return end
-    
-    if m[1] then -- ถ้าคุณเลือก "ปรับค่าเอง"
-        for i = 2, 4 do
-            if m[i] then ApplyHack(Hack[i], true) end
-        end
-    end
-    
-    if m[5] then -- ถ้าคุณเลือก "ปรับออโต้"
-        for i = 6, 9 do
-            if m[i] then ApplyHack(Hack[i], false) end
+    if not choice then return end
+    -- Action based on choice
+    for i, option in ipairs(menuOptions) do
+        if choice == i then
+            ApplyHack(Hack[option.action], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7)
         end
     end
 
-    if m[10] then
+    -- Exit option
+    if choice == 9 then
         toast("👋 เจอกันรอบหน้า!")
         gg.setVisible(true)
         gg.sleep(1000)
@@ -108,5 +102,6 @@ while true do
     while not gg.isVisible() do gg.sleep(200) end
     gg.setVisible(false)
 end
+
 
 print("✨ ขอบคุณที่ใช้สคริปต์ | by Ohmmi ✨")
