@@ -1,3 +1,5 @@
+- LINE Rangers Script v11.0.3 by Ohmmi (No Lang / Toast No Value)
+
 gg.setVisible(false)
 
 local toast, alert, prompt = gg.toast, gg.alert, gg.prompt
@@ -55,38 +57,23 @@ local function ApplyHack(h, promptMode)
     end
 end
 
--- 📋 Menu with Modern UI
+-- 📋 Menu
 local function ShowMenu()
-    local menuOptions = {
-        {name = Hack[1].name, icon = "⚙️", action = 1},
-        {name = Hack[2].name, icon = "⚙️", action = 2},
-        {name = Hack[3].name, icon = "⚙️", action = 3},
-        {name = Hack[4].switch and "🟢 "..Hack[4].name or "🔴 "..Hack[4].name, icon = "", action = 4},
-        {name = Hack[5].switch and "🟢 "..Hack[5].name or "🔴 "..Hack[5].name, icon = "", action = 5},
-        {name = Hack[6].switch and "🟢 "..Hack[6].name or "🔴 "..Hack[6].name, icon = "", action = 6},
-        {name = Hack[7].switch and "🟢 "..Hack[7].name or "🔴 "..Hack[7].name, icon = "", action = 7},
-        {name = Hack[8].name, icon = "⚙️", action = 8},
-        {name = "🚫 ออกจากสคริปต์", icon = "", action = 9}
-    }
+    local m = gg.multiChoice({
+        string.format("[⚙️] %s", Hack[1].name),
+        string.format("[⚙️] %s", Hack[2].name),
+        string.format("[⚙️] %s", Hack[3].name),
+        string.format("[%s] %s", Hack[4].switch and "🟢" or "🔴", Hack[4].name),
+        string.format("[%s] %s", Hack[5].switch and "🟢" or "🔴", Hack[5].name),
+        string.format("[%s] %s", Hack[6].switch and "🟢" or "🔴", Hack[6].name),
+        string.format("[%s] %s", Hack[7].switch and "🟢" or "🔴", Hack[7].name),
+        string.format("[⚙️] %s", Hack[8].name),
+        "🚫 ออกจากสคริปต์"
+    }, nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script")
 
-    local choice = gg.choice(
-        -- Create a table of formatted choices with icons
-        map(menuOptions, function(option)
-            return option.icon .. " " .. option.name
-        end),
-        nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script"
-    )
-
-    if not choice then return end
-    -- Action based on choice
-    for i, option in ipairs(menuOptions) do
-        if choice == i then
-            ApplyHack(Hack[option.action], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7)
-        end
-    end
-
-    -- Exit option
-    if choice == 9 then
+    if not m then return end
+    for i = 1, 8 do if m[i] then ApplyHack(Hack[i], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7) end end
+    if m[9] then
         toast("👋 เจอกันรอบหน้า!")
         gg.setVisible(true)
         gg.sleep(1000)
