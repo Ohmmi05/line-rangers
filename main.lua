@@ -68,22 +68,13 @@ local function ShowMenu()
         string.format("[%s] %s", Hack[6].switch and "🟢" or "🔴", Hack[6].name),
         string.format("[%s] %s", Hack[7].switch and "🟢" or "🔴", Hack[7].name),
         string.format("[⚙️] %s", Hack[8].name),
-        "🚫 ปิดเกม", "🚫 ออกจากสคริปต์"
+        "🚫 ออกจากสคริปต์"
     }, nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script")
 
     if not m then return end
     for i = 1, 8 do if m[i] then ApplyHack(Hack[i], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7) end end
     if m[9] then
-        toast("🛑 ปิดเกมแล้ว")
-        gg.processKill()
-        os.exit()
-    end
-    if m[10] then
-        local exitMsgs = {
-            "👋 เจอกันรอบหน้า!", "🛡️ พักก่อน นักรบ!", "🎮 เล่นให้สนุกนะ!",
-            "😎 สคริปต์เทพไว้ใจได้ by Ohmmi!", "🚀 ออกแล้ว บินได้!"
-        }
-        toast(exitMsgs[math.random(#exitMsgs)])
+        toast("👋 เจอกันรอบหน้า!")
         gg.setVisible(true)
         gg.sleep(1000)
         os.exit()
