@@ -1,5 +1,3 @@
--- LINE Rangers Script v11.0.3 by Ohmmi (No Lang / Toast No Value)
-
 gg.setVisible(false)
 
 local toast, alert, prompt = gg.toast, gg.alert, gg.prompt
@@ -102,6 +100,5 @@ while true do
     while not gg.isVisible() do gg.sleep(200) end
     gg.setVisible(false)
 end
-
 
 print("✨ ขอบคุณที่ใช้สคริปต์ | by Ohmmi ✨")
