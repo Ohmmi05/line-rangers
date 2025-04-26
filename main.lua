@@ -7,9 +7,12 @@ local toast, alert, prompt = gg.toast, gg.alert, gg.prompt
 -- 🔧 Hack Definitions
 local function addr(offset) return BaseAddress + offset end
 local Hack = {
+    -- ปรับค่าเอง
     [1] = { name = "ตีแรง",       offset = 0x82cbac,   type = gg.TYPE_FLOAT },
     [2] = { name = "ตีไว",       offset = 0x4eaa20,   type = gg.TYPE_FLOAT },
     [3] = { name = "ปล่อยตัวไว", offset = 0x4e5ffc,   type = gg.TYPE_FLOAT },
+
+    -- ปรับออโต้
     [4] = { name = "ฆ่าศัตรู",   offset = 0x5b0fd0,   value = 10000, switch = false, type = gg.TYPE_FLOAT },
     [5] = { name = "ศัตรูไม่ออก", offset = {0x551614, 0x5524b0, 0x557924}, value = 0, switch = false, type = gg.TYPE_FLOAT },
     [6] = { name = "บอสกิลด์ยืนนิ่ง", offset = 0x587240,   value = -100, switch = false, type = gg.TYPE_FLOAT },
@@ -60,20 +63,38 @@ end
 -- 📋 Menu
 local function ShowMenu()
     local m = gg.multiChoice({
+        -- เมนู "ปรับค่าเอง"
+        "ปรับค่าเอง",
         string.format("[⚙️] %s", Hack[1].name),
         string.format("[⚙️] %s", Hack[2].name),
         string.format("[⚙️] %s", Hack[3].name),
+
+        -- เมนู "ปรับออโต้"
+        "ปรับออโต้",
         string.format("[%s] %s", Hack[4].switch and "🟢" or "🔴", Hack[4].name),
         string.format("[%s] %s", Hack[5].switch and "🟢" or "🔴", Hack[5].name),
         string.format("[%s] %s", Hack[6].switch and "🟢" or "🔴", Hack[6].name),
         string.format("[%s] %s", Hack[7].switch and "🟢" or "🔴", Hack[7].name),
         string.format("[⚙️] %s", Hack[8].name),
+        
         "🚫 ออกจากสคริปต์"
     }, nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script")
 
     if not m then return end
-    for i = 1, 8 do if m[i] then ApplyHack(Hack[i], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7) end end
-    if m[9] then
+    
+    if m[1] then -- ถ้าคุณเลือก "ปรับค่าเอง"
+        for i = 2, 4 do
+            if m[i] then ApplyHack(Hack[i], true) end
+        end
+    end
+    
+    if m[5] then -- ถ้าคุณเลือก "ปรับออโต้"
+        for i = 6, 9 do
+            if m[i] then ApplyHack(Hack[i], false) end
+        end
+    end
+
+    if m[10] then
         toast("👋 เจอกันรอบหน้า!")
         gg.setVisible(true)
         gg.sleep(1000)
