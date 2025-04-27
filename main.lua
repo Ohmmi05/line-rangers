@@ -97,7 +97,7 @@ end
 function ShowManualMenu()
     local menuItems = {}
     for i, h in ipairs(Hack) do
-        local status = h.switch and "🟢" or "🔴"
+        local status = h.switch and "🟢 เปิดใช้งาน" or "🔴 ปิดการทำงาน"
         table.insert(menuItems, "➤ "..h.name.." ("..status..")")
     end
     table.insert(menuItems, "↩ กลับไปเมนูหลัก")
