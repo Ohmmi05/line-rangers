@@ -91,14 +91,38 @@ function ApplyPreset(preset)
     toast("🟢 เปิดใช้งาน")
 end
 
--- 📋 Manual Hack Menu (ให้ user ปรับเอง)
-function ShowManualMenu()
-    local menuItems = {}
+-- 🛠️ Build Menu Items with Real-Time Status
+function BuildManualMenuItems()
+    local items = {}
     for i, h in ipairs(Hack) do
-        table.insert(menuItems, "➤ "..h.name)
+        local curVal
+        if h.base and h.base[1] then
+            curVal = read(h.base[1], h.type)
+        else
+            local addrs = type(h.offset) == "table" and h.offset or {h.offset}
+            h.base = {}
+            for j, o in ipairs(addrs) do
+                h.base[j] = addr(o)
+            end
+            curVal = read(h.base[1], h.type)
+        end
+
+        -- 🧹 จัดรูปแบบค่าสถานะให้อ่านง่าย
+        local status
+        if h.value then
+            status = string.format("(%s)", h.switch and "เปิด" or "ปิด")
+        else
+            status = string.format("[%.2f]", curVal)
+        end
+        table.insert(items, "➤ "..h.name.." "..status)
     end
-    table.insert(menuItems, "↩ กลับไปเมนูหลัก")
-    local choice = gg.choice(menuItems, nil, " โหมดปรับเอง")
+    table.insert(items, "↩ กลับไปเมนูหลัก")
+    return items
+end
+
+-- 📋 Manual Hack Menu (Real-Time)
+function ShowManualMenu()
+    local choice = gg.choice(BuildManualMenuItems(), nil, "📊 โหมดปรับเอง (Real-Time)")
 
     if not choice then return end
     if choice <= #Hack then
@@ -108,7 +132,7 @@ function ShowManualMenu()
     end
 end
 
--- 📋 Auto Hack Menu (แบบเซ็ตอัตโนมัติ)
+-- 📋 Auto Hack Menu (Real-Time)
 function AutoHackMenu()
     local presetMenu = {
         "➤ สเตจหลัก",
@@ -120,7 +144,7 @@ function AutoHackMenu()
         "➤ โหมด PVP",
         "↩ กลับไปเมนูหลัก"
     }
-    local choice = gg.choice(presetMenu, nil, " โหมดอัติโนมัติ")
+    local choice = gg.choice(presetMenu, nil, "⚡ โหมดอัตโนมัติ (กดแล้วเซ็ตค่าทันที)")
 
     if choice == 1 then
         ApplyPreset({
