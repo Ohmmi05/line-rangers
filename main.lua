@@ -1,4 +1,4 @@
-- LINE Rangers Script v11.0.3 by Ohmmi (No Lang / Toast No Value)
+-- LINE Rangers Script v11.0.3 by Ohmmi (No Lang / Toast No Value)
 
 gg.setVisible(false)
 
@@ -43,7 +43,7 @@ local function ApplyHack(h, promptMode)
 
     if promptMode then
         local cur = read(h.base[1], h.type)
-        local input = prompt({"⚙️ "..h.name}, {tostring(cur)}, {"number"})
+        local input = prompt({"🔧 "..h.name}, {tostring(cur)}, {"number"})
         if input and tonumber(input[1]) then
             for _, a in ipairs(h.base) do write(a, h.type, tonumber(input[1])) end
             toast("✅ เปิดใช้งาน "..h.name)
@@ -68,13 +68,22 @@ local function ShowMenu()
         string.format("[%s] %s", Hack[6].switch and "🟢" or "🔴", Hack[6].name),
         string.format("[%s] %s", Hack[7].switch and "🟢" or "🔴", Hack[7].name),
         string.format("[⚙️] %s", Hack[8].name),
-        "🚫 ออกจากสคริปต์"
+        "🚫 ปิดเกม", "🚫 ออกจากสคริปต์"
     }, nil, "👑 ผู้พัฒนา: Ohmmi\n✅ LINE Rangers Script")
 
     if not m then return end
     for i = 1, 8 do if m[i] then ApplyHack(Hack[i], i ~= 4 and i ~= 5 and i ~= 6 and i ~= 7) end end
     if m[9] then
-        toast("👋 เจอกันรอบหน้า!")
+        toast("🛑 ปิดเกมแล้ว")
+        gg.processKill()
+        os.exit()
+    end
+    if m[10] then
+        local exitMsgs = {
+            "👋 เจอกันรอบหน้า!", "🛡️ พักก่อน นักรบ!", "🎮 เล่นให้สนุกนะ!",
+            "😎 สคริปต์เทพไว้ใจได้ by Ohmmi!", "🚀 ออกแล้ว บินได้!"
+        }
+        toast(exitMsgs[math.random(#exitMsgs)])
         gg.setVisible(true)
         gg.sleep(1000)
         os.exit()
