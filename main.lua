@@ -62,11 +62,11 @@ end
 local function ShowMenu()
     local options = {}
     for i, h in ipairs(Hack) do
-        table.insert(options, "➤ " .. h.name)
+        table.insert(options, "  ➤   " .. h.name)
     end
     table.insert(options, "🚫 ออกจากสคริปต์")
 
-    local choice = gg.choice(options, nil, "👑 ผู้พัฒนา: Ohmmi\n\n✅ LINE Rangers Script v11.0.3\n\nเลือกสิ่งที่คุณต้องการทำ")
+    local choice = gg.choice(options, nil, "👑 ผู้พัฒนา: Ohmmi\n\n✅ LINE Rangers Script v11.0.3")
     
     if choice == nil then
         return
