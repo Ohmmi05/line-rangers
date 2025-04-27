@@ -170,18 +170,21 @@ function AutoHackMenu()
     end
 end
 
--- 📋 Main Menu
+-- 📋 Main Menu with status of active menu
+local currentMenu = "ไม่มีเมนูที่เปิดใช้งาน"
 function ShowMainMenu()
     local menuItems = {
         "➤ โหมดปรับเอง",
         "➤ โหมดอัตโนมัติ",
         "🚫 ออกจากสคริปต์"
     }
-    local choice = gg.choice(menuItems, nil, "👑 ผู้พัฒนา: Ohmmi\n\nเลือกหมวดหมู่")
+    local choice = gg.choice(menuItems, nil, "👑 ผู้พัฒนา: Ohmmi\n\nสถานะเมนูปัจจุบัน: "..currentMenu.."\n\nเลือกหมวดหมู่:")
 
     if choice == 1 then
+        currentMenu = "โหมดปรับเอง"
         ShowManualMenu()
     elseif choice == 2 then
+        currentMenu = "โหมดอัตโนมัติ"
         AutoHackMenu()
     elseif choice == 3 then
         local exitMsgs = {
