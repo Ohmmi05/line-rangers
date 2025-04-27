@@ -53,6 +53,7 @@ local function ApplyHack(h, promptMode)
         h.base[i] = h.base[i] or addr(o)
     end
 
+    -- ถ้าป้อนค่าแบบ manual (ป้อนค่าแบบตัวเลข), ใช้ในกรณีที่เป็นแบบ promptMode
     if promptMode then
         local cur = read(h.base[1], h.type)
         local input = prompt({"⚙️ "..h.name}, {tostring(cur)}, {"number"})
@@ -63,6 +64,7 @@ local function ApplyHack(h, promptMode)
             toast("⚙️ ปรับ "..h.name)
         end
     else
+        -- การสลับ switch สำหรับ Hack 4-7 (เปิด/ปิด)
         h.switch = not h.switch
         if not h.off then h.off = read(h.base[1], h.type) end
         local val = h.switch and h.value or h.off
@@ -95,7 +97,7 @@ end
 function ShowManualMenu()
     local menuItems = {}
     for i, h in ipairs(Hack) do
-        local status = h.switch and "🟢 เปิดใช้งาน" or "🔴 ปิดการทำงาน"
+        local status = h.switch and "🟢" or "🔴"
         table.insert(menuItems, "➤ "..h.name.." ("..status..")")
     end
     table.insert(menuItems, "↩ กลับไปเมนูหลัก")
