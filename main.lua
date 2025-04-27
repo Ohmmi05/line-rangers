@@ -5,14 +5,14 @@ local toast, alert, prompt = gg.toast, gg.alert, gg.prompt
 -- 🔧 Hack Definitions
 local function addr(offset) return BaseAddress + offset end
 local Hack = {
-    [1] = { name = "ตีแรง",       offset = 0x82cbac,   type = gg.TYPE_FLOAT },
-    [2] = { name = "ตีไว",       offset = 0x4eaa20,   type = gg.TYPE_FLOAT },
-    [3] = { name = "ปล่อยตัวไว", offset = 0x4e5ffc,   type = gg.TYPE_FLOAT },
+    [1] = { name = "ตีแรง",       offset = 0x82cbac,   type = gg.TYPE_FLOAT, switch = false },
+    [2] = { name = "ตีไว",       offset = 0x4eaa20,   type = gg.TYPE_FLOAT, switch = false },
+    [3] = { name = "ปล่อยตัวไว", offset = 0x4e5ffc,   type = gg.TYPE_FLOAT, switch = false },
     [4] = { name = "ฆ่าศัตรู",   offset = 0x5b0fd0,   value = 10000, switch = false, type = gg.TYPE_FLOAT },
     [5] = { name = "ศัตรูไม่ออก", offset = {0x551614, 0x5524b0, 0x557924}, value = 0, switch = false, type = gg.TYPE_FLOAT },
     [6] = { name = "บอสกิลด์ยืนนิ่ง", offset = 0x587240, value = -100, switch = false, type = gg.TYPE_FLOAT },
     [7] = { name = "กันรายงาน PVP", offset = 0x540800, value = 1.40129846e-40, switch = false, type = gg.TYPE_FLOAT },
-    [8] = { name = "ความเร็วเกม", offset = 0xd22654, type = gg.TYPE_FLOAT },
+    [8] = { name = "ความเร็วเกม", offset = 0xd22654, type = gg.TYPE_FLOAT, switch = false },
 }
 
 -- 🧠 Memory Helpers
@@ -95,7 +95,8 @@ end
 function ShowManualMenu()
     local menuItems = {}
     for i, h in ipairs(Hack) do
-        table.insert(menuItems, "➤ "..h.name)
+        local status = h.switch and "🟢 เปิดใช้งาน" or "🔴 ปิดการทำงาน"
+        table.insert(menuItems, "➤ "..h.name.." ("..status..")")
     end
     table.insert(menuItems, "↩ กลับไปเมนูหลัก")
     local choice = gg.choice(menuItems, nil, " โหมดปรับเอง")
@@ -120,7 +121,7 @@ function AutoHackMenu()
         "➤ โหมด PVP",
         "↩ กลับไปเมนูหลัก"
     }
-    local choice = gg.choice(presetMenu, nil, " โหมดอัติโนมัติ")
+    local choice = gg.choice(presetMenu, nil, " โหมดอัตโนมัติ")
 
     if choice == 1 then
         ApplyPreset({
@@ -170,21 +171,18 @@ function AutoHackMenu()
     end
 end
 
--- 📋 Main Menu with status of active menu
-local currentMenu = "ไม่มีเมนูที่เปิดใช้งาน"
+-- 📋 Main Menu
 function ShowMainMenu()
     local menuItems = {
         "➤ โหมดปรับเอง",
         "➤ โหมดอัตโนมัติ",
         "🚫 ออกจากสคริปต์"
     }
-    local choice = gg.choice(menuItems, nil, "👑 ผู้พัฒนา: Ohmmi\n\nสถานะเมนูปัจจุบัน: "..currentMenu.."\n\nเลือกหมวดหมู่:")
+    local choice = gg.choice(menuItems, nil, "👑 ผู้พัฒนา: Ohmmi\n\nเลือกหมวดหมู่")
 
     if choice == 1 then
-        currentMenu = "โหมดปรับเอง"
         ShowManualMenu()
     elseif choice == 2 then
-        currentMenu = "โหมดอัตโนมัติ"
         AutoHackMenu()
     elseif choice == 3 then
         local exitMsgs = {
