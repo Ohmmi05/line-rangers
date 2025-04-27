@@ -78,14 +78,14 @@ end
 -- 📋 Menu
 local function ShowMenu()
     local menuItems = {
-        "➤  "..Hack[1].name,
-        "➤  "..Hack[2].name,
-        "➤  "..Hack[3].name,
-        "➤  "..Hack[4].name,
-        "➤  "..Hack[5].name,
-        "➤  "..Hack[6].name,
-        "➤  "..Hack[7].name,
-        "➤  "..Hack[8].name,
+        "➤"..Hack[1].name,
+        "➤"..Hack[2].name,
+        "➤"..Hack[3].name,
+        "➤"..Hack[4].name,
+        "➤"..Hack[5].name,
+        "➤"..Hack[6].name,
+        "➤"..Hack[7].name,
+        "➤"..Hack[8].name,
         "🚫 ออกจากสคริปต์"
     }
 
