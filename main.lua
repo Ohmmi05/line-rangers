@@ -122,7 +122,7 @@ end
 
 -- 📋 Manual Hack Menu (Real-Time)
 function ShowManualMenu()
-    local choice = gg.choice(BuildManualMenuItems(), nil, "📊 โหมดปรับเอง (Real-Time)")
+    local choice = gg.choice(BuildManualMenuItems(), nil, "📊 โหมดปรับเอง (Real-Time)\n\nสถานะฟังก์ชัน:")
 
     if not choice then return end
     if choice <= #Hack then
@@ -194,14 +194,16 @@ function AutoHackMenu()
     end
 end
 
--- 📋 Main Menu
+-- 📋 Main Menu with Header Status
 function ShowMainMenu()
+    local headerStatus = "📊 สถานะฟังก์ชัน:"
     local menuItems = {
         "➤ โหมดปรับเอง",
         "➤ โหมดอัตโนมัติ",
         "🚫 ออกจากสคริปต์"
     }
-    local choice = gg.choice(menuItems, nil, "👑 ผู้พัฒนา: Ohmmi\n\nเลือกหมวดหมู่:")
+
+    local choice = gg.choice(menuItems, nil, headerStatus.."\n\nเลือกหมวดหมู่:")
 
     if choice == 1 then
         ShowManualMenu()
