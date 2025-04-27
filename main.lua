@@ -98,7 +98,7 @@ function ShowManualMenu()
         table.insert(menuItems, "➤ "..h.name)
     end
     table.insert(menuItems, "↩ กลับไปเมนูหลัก")
-    local choice = gg.choice(menuItems, nil, " ปรับเอง:")
+    local choice = gg.choice(menuItems, nil, " โหมดปรับเอง")
 
     if not choice then return end
     if choice <= #Hack then
@@ -120,7 +120,7 @@ function AutoHackMenu()
         "➤ โหมด PVP",
         "↩ กลับไปเมนูหลัก"
     }
-    local choice = gg.choice(presetMenu, nil, " ปรับอัตโนมัติ:")
+    local choice = gg.choice(presetMenu, nil, " โหมดอัติโนมัติ")
 
     if choice == 1 then
         ApplyPreset({
